@@ -52,9 +52,21 @@ public_users.get("/author/:author",(req, res) => {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
+public_users.get("/title/:title",(req, res) => {
   //Write your code here
-  res.send("si estamos en titulo");
+  const title = req.params.title;
+
+  //Se hace un filtrado recuperando todos los objetos
+  const filtered_byTitle = Object.values(books).filter(
+    (book) => book.title.toLowerCase() === title.toLowerCase()
+  );
+
+  if (filtered_byTitle.length > 0) {
+    //return res.status(200).json(filtered_books);
+    res.send(JSON.stringify(filtered_byTitle,null,4));
+  } else {
+    return res.status(404).json({ message: "No se encontraron libros de este autor" });
+  }
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
