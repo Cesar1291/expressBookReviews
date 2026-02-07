@@ -65,7 +65,7 @@ public_users.get("/title/:title",(req, res) => {
     //return res.status(200).json(filtered_books);
     res.send(JSON.stringify(filtered_byTitle,null,4));
   } else {
-    return res.status(404).json({ message: "No se encontraron libros de este autor" });
+    return res.status(404).json({ message: "No se encontraron libros de este titulo" });
   }
   //return res.status(300).json({message: "Yet to be implemented"});
 });
