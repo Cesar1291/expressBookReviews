@@ -19,7 +19,14 @@ public_users.get('/',function (req, res) {
 //public_users.get('/isbn/:isbn',function (req, res) {
 public_users.get("/isbn/:isbn",(req, res) => {
   //Write your code here
-  res.send("si estamos en isbn");
+  const isbn = req.params.isbn;
+  let filtered_byIsbn = books[isbn];
+  
+  if (filtered_byIsbn) {
+    res.send(JSON.stringify(filtered_byIsbn,null,4));
+  } else {
+    res.status(404).json({ message: "Libro no encontrado" });
+  }
   //return res.status(300).json({message: "Yet to be implemented"});
  });
   
