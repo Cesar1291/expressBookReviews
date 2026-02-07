@@ -25,7 +25,8 @@ public_users.get("/isbn/:isbn",(req, res) => {
   if (filtered_byIsbn) {
     res.send(JSON.stringify(filtered_byIsbn,null,4));
   } else {
-    res.status(404).json({ message: "Libro no encontrado" });
+    const mssNoIsbn = [{ message: "Libro no encontrado" }]
+    res.send(JSON.stringify(mssNoIsbn,null,4));
   }
   //return res.status(300).json({message: "Yet to be implemented"});
  });
@@ -47,7 +48,8 @@ public_users.get("/author/:author",(req, res) => {
     //return res.status(200).json(filtered_books);
     res.send(JSON.stringify(filtered_byAuthor,null,4));
   } else {
-    return res.status(404).json({ message: "No se encontraron libros de este autor" });
+    const mssNoAuthor = [{ message: "No se encontraron libros de este autor" }]
+    res.send(JSON.stringify(mssNoAuthor,null,4));
   }
 });
 
@@ -65,15 +67,25 @@ public_users.get("/title/:title",(req, res) => {
     //return res.status(200).json(filtered_books);
     res.send(JSON.stringify(filtered_byTitle,null,4));
   } else {
-    return res.status(404).json({ message: "No se encontraron libros de este titulo" });
+    const mssNoTitle = [{ message: "No se encontraron libros de este titulo" }]
+    res.send(JSON.stringify(mssNoTitle,null,4));
   }
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
+public_users.get("/review/:isbn",(req, res) =>{
   //Write your code here
-  res.send("si estamos en review");
+  const isbn = req.params.isbn;
+  let revieByIsbn = books[isbn];
+
+  if (revieByIsbn.length > 0) {
+    //return res.status(200).json(filtered_books);
+    res.send(JSON.stringify(revieByIsbn.reviews,null,4));
+  } else {
+    const mssNoReview = [{ message: "El libro aun no tiene reseñas" }]
+    res.send(JSON.stringify(mssNoReview,null,4));
+  }
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
