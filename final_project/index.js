@@ -18,6 +18,5 @@ const PORT =5000;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
-//app.use("/book", genl_routes);
 
 app.listen(PORT,()=>console.log("Server is running"));

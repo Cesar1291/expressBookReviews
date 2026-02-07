@@ -78,14 +78,14 @@ public_users.get("/review/:isbn",(req, res) =>{
   //Write your code here
   const isbn = req.params.isbn;
   let revieByIsbn = books[isbn];
-
-  if (revieByIsbn.length > 0) {
-    //return res.status(200).json(filtered_books);
-    res.send(JSON.stringify(revieByIsbn.reviews,null,4));
-  } else {
-    const mssNoReview = [{ message: "El libro aun no tiene reseñas" }]
-    res.send(JSON.stringify(mssNoReview,null,4));
-  }
+   res.send(JSON.stringify(revieByIsbn.reviews,null,4));
+  //if (revieByIsbn.length > 0) {
+  //  //return res.status(200).json(filtered_books);
+  //  res.send(JSON.stringify(revieByIsbn.reviews,null,4));
+  //} else {
+  //  const mssNoReview = [{ message: "El libro aun no tiene reseñas" }]
+  //  res.send(JSON.stringify(mssNoReview,null,4));
+  //}
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
