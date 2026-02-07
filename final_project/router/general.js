@@ -52,7 +52,8 @@ public_users.get("/author/:author",(req, res) => {
   );
 
   if (filtered_books.length > 0) {
-    return res.status(200).json(filtered_books);
+    //return res.status(200).json(filtered_books);
+    res.send(JSON.stringify(filtered_books,null,4));
   } else {
     return res.status(404).json({ message: "No se encontraron libros de este autor" });
   }
