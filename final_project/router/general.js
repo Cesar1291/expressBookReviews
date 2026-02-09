@@ -13,11 +13,11 @@ public_users.post("/register", (req,res) => {
     return res.status(404).json({ message: "Error logging in" });
   }
 
-  if (authenticatedUser(username, password)) {
+  if (users.authenticatedUser(username, password)) {
     let accessToken = jwt.sign({
       data: password
     }, 'access', { expiresIn: 60 * 60 });
-    
+
     req.session.authorization = {
       accessToken, username
     };
