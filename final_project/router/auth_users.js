@@ -51,7 +51,7 @@ regd_users.post("/login", (req,res) => {
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
-public_users.post("/register", (req,res) => {
+regd_users.post("/register", (req,res) => {
   //Write your code here
   const username = req.body.username;
   const password = req.body.password;
