@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const session = require('express-session')
 const customer_routes = require('./router/auth_users.js').authenticated;
-const genl_routes = require('./router/general.js').general;   
+const genl_routes = require('./router/general.js').general;
 
 const app = express();
 
@@ -10,32 +10,9 @@ app.use(express.json());
 
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
-//app.use("/customer/auth/*", function auth(req,res,next){
-////Write the authenication mechanism here
-//});
-
-// Middleware for user authentication
-app.use("/customer/auth/user", (req, res, next) => {
-    // Check if user is authenticated
-    if (req.session.authorization) {
-        let token = req.session.authorization['accessToken']; // Access Token
-        
-        // Verify JWT token for user authentication
-        jwt.verify(token, "access", (err, user) => {
-            if (!err) {
-                req.user = user; // Set authenticated user data on the request object
-                next(); // Proceed to the next middleware
-            } else {
-                return res.status(403).json({ message: "Usuario no autentificado" }); // Return error if token verification fails
-            }
-        });
-        
-        // Return error if no access token is found in the session
-    } else {
-        return res.status(403).json({ message: "El usuario no logueado" });
-    }
+app.use("/customer/auth/*", function auth(req,res,next){
+//Write the authenication mechanism here
 });
-
  
 const PORT =5000;
 
