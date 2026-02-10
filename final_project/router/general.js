@@ -10,22 +10,15 @@ public_users.post("/register", (req,res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  if (!username || !password) {
-    return res.status(404).json({ message: "Error en logging" });
+  if (username && password) {
+    if (!isValid(username)) {
+      users.push({ "username": username, "password": password });
+      return res.status(200).json({ message: "Usuario registrado correctamente. Ahora puedes hacer login" });
+    } else {
+      return res.status(404).json({ message: "El Usuario ya existe!" });
+    }
   }
-
-  if (authenticatedUser(username, password)) {
-    let accessToken = jwt.sign({
-      data: password
-    }, 'access', { expiresIn: 60 * 60 });
-
-    req.session.authorization = {
-      accessToken, username
-    };
-    return res.status(200).send("Se conecto correctamente");
-  } else {
-    return res.status(208).json({ message: "Acceso invalido. Revise su usuario y/o contraseña" });
-  }
+  return res.status(404).json({ message: "No se puede registrar el usuario." });
     //return res.status(300).json({message: "Yet to be implemented"});
 }); 
 
