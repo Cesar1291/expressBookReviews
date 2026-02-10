@@ -11,7 +11,7 @@ public_users.post("/register", (req,res) => {
   const password = req.body.password;
 
   if (!username || !password) {
-    return res.status(404).json({ message: "Error logging in" });
+    return res.status(404).json({ message: "Error en logging" });
   }
 
   if (authenticatedUser(username, password)) {
