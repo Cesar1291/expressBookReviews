@@ -68,41 +68,52 @@ public_users.get("/isbn/:isbn",(req, res) => {
 public_users.get("/author/:author",(req, res) => {
   //Write your code here
   const author = req.params.author;
-  //Como books no es un array, si no un objeto de objetos, no se puede usar directamente el 
-  //metodo .filter(). Como en la siguiente linea
-  //let filtered_books = library.filter((book) => book.author === author);
+  const findByAuthor = new Promise((resolve, reject) => {
+    // Realizamos el filtrado
+    const filtered_byAuthor = Object.values(books).filter(
+      (book) => book.author.toLowerCase() === author.toLowerCase()
+    );
 
-  //Se hace un filtrado recuperando todos los objetos
-  const filtered_byAuthor = Object.values(books).filter(
-    (book) => book.author.toLowerCase() === author.toLowerCase()
-  );
+    if (filtered_byAuthor.length > 0) {
+      resolve(filtered_byAuthor);
+    } else {
+      reject({ message: "No se encontraron libros de este autor" });
+    }
+  });  
 
-  if (filtered_byAuthor.length > 0) {
-    //return res.status(200).json(filtered_books);
-    res.send(JSON.stringify(filtered_byAuthor,null,4));
-  } else {
-    const mssNoAuthor = [{ message: "No se encontraron libros de este autor" }]
-    res.send(JSON.stringify(mssNoAuthor,null,4));
-  }
+  findByAuthor
+    .then((booksFound) => {
+      res.status(200).send(JSON.stringify(booksFound, null, 4));
+    })
+    .catch((error) => {
+      res.status(404).send(JSON.stringify(error, null, 4));
+    });
 });
 
 // Get all books based on title
 public_users.get("/title/:title",(req, res) => {
   //Write your code here
   const title = req.params.title;
+  const findByTitle = new Promise((resolve, reject) => {
+    // Realizamos el filtrado
+    const filtered_byTitle = Object.values(books).filter(
+      (book) => book.title.toLowerCase() === title.toLowerCase()
+    );
 
-  //Se hace un filtrado recuperando todos los objetos
-  const filtered_byTitle = Object.values(books).filter(
-    (book) => book.title.toLowerCase() === title.toLowerCase()
-  );
+    if (filtered_byTitle.length > 0) {
+      resolve(filtered_byTitle);
+    } else {
+      reject({ message: "No se encontraron libros de este autor" });
+    }
 
-  if (filtered_byTitle.length > 0) {
-    //return res.status(200).json(filtered_books);
-    res.send(JSON.stringify(filtered_byTitle,null,4));
-  } else {
-    const mssNoTitle = [{ message: "No se encontraron libros de este titulo" }]
-    res.send(JSON.stringify(mssNoTitle,null,4));
-  }
+  findByTitle
+    .then((booksFound) => {
+      res.status(200).send(JSON.stringify(booksFound, null, 4));
+    })
+    .catch((error) => {
+      res.status(404).send(JSON.stringify(error, null, 4));
+    });
+  });  
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
