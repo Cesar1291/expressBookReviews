@@ -96,15 +96,16 @@ public_users.get("/title/:title",(req, res) => {
   const title = req.params.title;
   const findByTitle = new Promise((resolve, reject) => {
     // Realizamos el filtrado
-    const filtered_byTitle = Object.values(books).filter(
+    const filtered_byATitle = Object.values(books).filter(
       (book) => book.title.toLowerCase() === title.toLowerCase()
     );
 
-    if (filtered_byTitle.length > 0) {
-      resolve(filtered_byTitle);
+    if (filtered_byATitle.length > 0) {
+      resolve(filtered_byATitle);
     } else {
       reject({ message: "No se encontraron libros de este autor" });
     }
+  });  
 
   findByTitle
     .then((booksFound) => {
