@@ -83,6 +83,32 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
+
+// DELETE request: Delete a user by email ID
+router.delete("/auth/review/:isbn", (req, res) => {
+  const isbn = req.params.isbn;
+  const username = req.session.authorization?.username; //obtenemos al usuario de la sesion
+
+  if (books[isbn]) {//si el id es valido
+    if (books[isbn].reviews[username]) {//Validar que el usuario tenga una reseña para el libro
+            
+            //Eliminar solo la reseña perteneciente a este usuario
+            delete books[isbn].reviews[username];
+            
+            return res.status(200).json({
+                message: `La reseña del usuario ${username} para el libro con ISBN ${isbn} ha sido eliminada.`
+            });
+        } else {
+            return res.status(404).json({ 
+                message: "No se encontró ninguna reseña tuya para este libro." 
+            });
+        }
+    } else {
+        return res.status(404).json({ message: "Libro no encontrado." });
+    }
+  //return res.status(300).json({message: "Yet to be implemented"});
+});
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
