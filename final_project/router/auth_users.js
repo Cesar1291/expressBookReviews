@@ -60,7 +60,22 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  // Extract email parameter and find users with matching email
+  const isbn = req.params.isbn;
+  let filtered_byIsbn = books[isbn];
+
+  if (filtered_byIsbn.length > 0) {
+    let filtered_books = filtered_byIsbn[0];
+    let review = req.query.review;  
+
+    if (review) {
+        filtered_books.review = review;
+    }
+    
+    books.push(filtered_books);
+  }
+
+  //return res.status(300).json({message: "Yet to be implemented"});
 });
 
 module.exports.authenticated = regd_users;
