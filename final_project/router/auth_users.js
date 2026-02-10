@@ -71,8 +71,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     if (review) {
         filtered_books.review = review;
     }
-    
+
     books.push(filtered_books);
+    
+    res.send(`Gracias por tu reseña`);
   }
 
   //return res.status(300).json({message: "Yet to be implemented"});
