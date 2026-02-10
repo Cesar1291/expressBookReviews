@@ -34,20 +34,26 @@ const authenticatedUser = (username, password) => {
 //only registered users can login
 regd_users.post("/login", (req,res) => {
   //Write your code here    const user = req.body.user;
-  const user = req.body.user;
-  if (!user) {
-      return res.status(404).json({ message: "Body Empty" });
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (!username || !password) {
+    return res.status(404).json({ message: "Error en logging" });
   }
 
-  // Generate JWT access token
-  let accessToken = jwt.sign({
-      data: user
-  }, 'access', { expiresIn: 60 * 60 });
-  // Store access token in session
-  req.session.authorization = {
-      accessToken
+  if (authenticatedUser(username, password)) {
+    let accessToken = jwt.sign({
+      data: password
+    }, 'access', { expiresIn: 60 * 60 });
+
+    req.session.authorization = {
+      accessToken, username
+    };
+    return res.status(200).send("User loggeado correctamente");
+  } else {
+    return res.status(208).json({ message: "Logueo invalido. Revise su usuario o contraseña" });
   }
-  return res.status(200).send("Se conecto correctamente");
+
   //return res.status(300).json({message: "Yet to be implemented"});
 });
 
