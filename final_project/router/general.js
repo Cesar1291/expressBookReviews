@@ -24,7 +24,7 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  const getBooks = new Promise((resolve, reject) => { // Simulamos una operación asíncrona
+  const getBooks = new Promise((resolve, reject) => {
     if (books) {
       resolve(books);
     } else {
@@ -44,16 +44,23 @@ public_users.get('/',function (req, res) {
 // Get book details based on ISBN
 //public_users.get('/isbn/:isbn',function (req, res) {
 public_users.get("/isbn/:isbn",(req, res) => {
-  //Write your code here
   const isbn = req.params.isbn;
-  let filtered_byIsbn = books[isbn];
+  const findByIsbn = new Promise((resolve, reject) => {
+    let book = books[isbn];
+    if (book) {
+      resolve(book);
+    } else {
+      reject({ message: "Libro no encontrado" });
+    }
+  });  
   
-  if (filtered_byIsbn) {
-    res.send(JSON.stringify(filtered_byIsbn,null,4));
-  } else {
-    const mssNoIsbn = [{ message: "Libro no encontrado" }]
-    res.send(JSON.stringify(mssNoIsbn,null,4));
-  }
+  findByIsbn
+    .then((bookDetails) => {
+      res.status(200).send(JSON.stringify(bookDetails, null, 4));
+    })
+    .catch((error) => {
+      res.status(404).send(JSON.stringify(error, null, 4));
+    });
   //return res.status(300).json({message: "Yet to be implemented"});
  });
   
