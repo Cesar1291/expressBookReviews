@@ -113,8 +113,6 @@ public_users.get("/title/:title",(req, res) => {
     .catch((error) => {
       res.status(404).send(JSON.stringify(error, null, 4));
     });
-  });  
-  //return res.status(300).json({message: "Yet to be implemented"});
 });
 
 //  Get book review
