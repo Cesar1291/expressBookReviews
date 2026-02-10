@@ -24,8 +24,21 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  //Write your code here
-   res.send(JSON.stringify(books,null,4));
+  const getBooks = new Promise((resolve, reject) => { // Simulamos una operación asíncrona
+    if (books) {
+      resolve(books);
+    } else {
+      reject("No se pudieron recuperar los libros");
+    }
+  });
+
+  getBooks
+    .then((bookList) => {
+      res.status(200).send(JSON.stringify(bookList, null, 4));
+    })
+    .catch((error) => {
+      res.status(500).json({ message: error });
+    });
 });
 
 // Get book details based on ISBN
